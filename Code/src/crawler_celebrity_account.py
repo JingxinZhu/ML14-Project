@@ -8,7 +8,6 @@ Date created: 23rd, Apr
 
 import sys
 import urllib2
-import json
 
 from BeautifulSoup import BeautifulSoup as BS
 
