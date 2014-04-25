@@ -11,8 +11,8 @@ celebrities is provided by [Twitaholic](http://twitaholic.com/), and we are
 using Twitter API wrapper, namely tweepy for crawling.
 
 ## Prerequisites 
-You can run the code if you like. We are using Python and the
-following libraries are neccessary to PERFECTLY run the ENTIRE project:
+You can run the code if you like. We are using Python and the following libraries 
+are neccessary to PERFECTLY run the ENTIRE project:
 
 * NumPy and SciPy
 * scikit-learn
