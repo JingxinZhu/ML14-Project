@@ -6,7 +6,6 @@ Author: Bowei Zhang and Jingxin Zhu
 Date created: 23rd, Apr
 '''
 
-import sys
 import tweepy
 
 class Crawler_Celebrity_Tweets:
@@ -19,10 +18,10 @@ class Crawler_Celebrity_Tweets:
             api = tweepy.API()
             try:
                 # necessary params to get access to Twitter API
-                consumer_key = '3yvyOFJ1TYwiFtB2qTTpA'
-                consumer_secret = 'OFiVTr0FVu5YcRQcNoKvWF26x04uBUkz8ZNoBX5Dr2s'
-                access_token = '297845201-SrnlyPVGXEiDsdZ9sUBrNTQ0IMgqRFCJBecxWBdS'
-                access_token_secret = '3nKDHHluqmC4PYq56Q3szKYQA5LrOGD1AcFmm6Q'
+                consumer_key = ''
+                consumer_secret = ''
+                access_token = ''
+                access_token_secret = ''
                 
                 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
                 auth.set_access_token(access_token, access_token_secret)
@@ -36,12 +35,10 @@ class Crawler_Celebrity_Tweets:
             for user in id_list:
                 try:
                     tweets = api.user_timeline(user, count = n_per_user)
-                    for t in tweets:
-                        print t.retweet_count
+                    tweet_list += tweets
+                    #for t in tweets:
+                    #    print t.retweet_count
                 except:
                     print 'User', user, 'does not exist.'
             
         return tweet_list
-
-c = Crawler_Celebrity_Tweets()
-c.crawl(id_list = ['feqfeqfefqewf', 'psyclaudeZ', 'asfdsfafdfeqfqefeff'])
