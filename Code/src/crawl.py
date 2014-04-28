@@ -7,6 +7,7 @@ Date created: 24th, Apr
 '''
 
 import sys
+import numpy
 import crawler_celebrity_accounts as cc
 import crawler_celebrity_tweets as ct
 
@@ -42,8 +43,8 @@ def main(args):
     crawler_tweets = ct.Crawler_Celebrity_Tweets()
     tweets = crawler_tweets.crawl(n_tweets_per_id, id_list)
 
-    for t in tweets:
-        print t.retweet_count, t.user.name
+    for cnt, t in enumerate(tweets):
+        print t.user.friends_count
 
 if __name__ == '__main__':
     main(sys.argv)

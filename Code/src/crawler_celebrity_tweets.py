@@ -18,10 +18,10 @@ class Crawler_Celebrity_Tweets:
             api = tweepy.API()
             try:
                 # necessary params to get access to Twitter API
-                consumer_key = ''
-                consumer_secret = ''
-                access_token = ''
-                access_token_secret = ''
+                consumer_key = '3yvyOFJ1TYwiFtB2qTTpA'
+                consumer_secret = 'OFiVTr0FVu5YcRQcNoKvWF26x04uBUkz8ZNoBX5Dr2s'
+                access_token ='297845201-SrnlyPVGXEiDsdZ9sUBrNTQ0IMgqRFCJBecxWBdS' 
+                access_token_secret = '3nKDHHluqmC4PYq56Q3szKYQA5LrOGD1AcFmm6Q'
                 
                 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
                 auth.set_access_token(access_token, access_token_secret)
