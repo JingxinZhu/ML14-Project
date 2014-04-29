@@ -7,12 +7,8 @@ Date created: 24th, Apr
 '''
 
 import sys
-<<<<<<< HEAD
-import numpy
-=======
 import csv
 
->>>>>>> bowei_air
 import crawler_celebrity_accounts as cc
 import crawler_celebrity_tweets as ct
 import tweet_cleaner as tc
@@ -49,10 +45,6 @@ def main(args):
     crawler_tweets = ct.Crawler_Celebrity_Tweets()
     tweets = crawler_tweets.crawl(n_tweets_per_id, id_list)
 
-<<<<<<< HEAD
-    for cnt, t in enumerate(tweets):
-        print t.user.friends_count
-=======
     # clean the raw data (but still need processing in later stage)
     cleaner = tc.Tweet_Cleaner()
     # use vec to store the results
@@ -63,7 +55,6 @@ def main(args):
     with open(out_path + '/tweets', 'wb') as f:
         writer = csv.writer(f)
         writer.writerows(vec)
->>>>>>> bowei_air
 
 if __name__ == '__main__':
     main(sys.argv)
