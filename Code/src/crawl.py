@@ -7,8 +7,11 @@ Date created: 24th, Apr
 '''
 
 import sys
+import csv
+
 import crawler_celebrity_accounts as cc
 import crawler_celebrity_tweets as ct
+import tweet_cleaner as tc
 
 def main(args):
     if len(args) < 3:
@@ -42,8 +45,16 @@ def main(args):
     crawler_tweets = ct.Crawler_Celebrity_Tweets()
     tweets = crawler_tweets.crawl(n_tweets_per_id, id_list)
 
-    for t in tweets:
-        print t.retweet_count, t.user.name
+    # clean the raw data (but still need processing in later stage)
+    cleaner = tc.Tweet_Cleaner()
+    # use vec to store the results
+    vec = []
+    for i, t in enumerate(tweets):
+        vec.append(cleaner.clean(t))
+
+    with open(out_path + '/tweets', 'wb') as f:
+        writer = csv.writer(f)
+        writer.writerows(vec)
 
 if __name__ == '__main__':
     main(sys.argv)
