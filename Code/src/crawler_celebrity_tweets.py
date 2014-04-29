@@ -20,7 +20,11 @@ class Crawler_Celebrity_Tweets:
                 # necessary params to get access to Twitter API
                 consumer_key = '3yvyOFJ1TYwiFtB2qTTpA'
                 consumer_secret = 'OFiVTr0FVu5YcRQcNoKvWF26x04uBUkz8ZNoBX5Dr2s'
+<<<<<<< HEAD
                 access_token ='297845201-SrnlyPVGXEiDsdZ9sUBrNTQ0IMgqRFCJBecxWBdS' 
+=======
+                access_token = '297845201-SrnlyPVGXEiDsdZ9sUBrNTQ0IMgqRFCJBecxWBdS'
+>>>>>>> bowei_air
                 access_token_secret = '3nKDHHluqmC4PYq56Q3szKYQA5LrOGD1AcFmm6Q'
                 
                 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -34,6 +38,7 @@ class Crawler_Celebrity_Tweets:
 
             for user in id_list:
                 try:
+                    print 'Working on user', user
                     tweets = api.user_timeline(user, count = n_per_user)
                     tweet_list += tweets
                     #for t in tweets:
