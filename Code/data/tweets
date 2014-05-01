@@ -1,8 +1,10 @@
-2067,Katy Perry,5,False,141866,52579985,en,False,True,5538,138,True,False,False,False,False,False,False,84091,1,1,0
-2552,Katy Perry,5,False,141866,52579985,en,False,True,5538,138,True,False,False,False,False,False,False,73653,1,1,0
-42552,Justin Bieber,5,False,561131,51216591,en,False,True,26692,125886,True,False,False,False,False,False,False,67190,1,0,0
-54781,Justin Bieber,5,False,561131,51216591,en,False,True,26692,125886,True,False,False,False,False,False,False,66576,1,0,0
-91,YouTube,7,True,72904,41544884,en,True,True,10237,603,False,True,False,False,False,False,False,3605,1,0,1
-75,YouTube,7,True,72904,41544884,en,True,True,10237,603,False,True,False,False,False,False,False,7,0,0,1
-5862,Lady Gaga,6,True,242176,41320130,en,False,True,4557,134753,True,False,False,False,False,False,False,3349,1,0,0
-4641,Lady Gaga,6,True,242176,41320130,en,False,True,4557,134753,False,False,False,False,False,False,True,78175,1,2,0
+3621,Katy Perry,5,False,141915,52632242,en,False,True,5547,138,True,False,False,False,False,False,False,73653,1,1,0
+3841,Katy Perry,5,False,141915,52632242,en,False,True,5547,138,True,False,False,False,False,False,False,58705,0,3,0
+19420,Justin Bieber,5,False,561056,51253394,en,False,True,26712,125938,False,True,False,False,False,False,False,25507,0,0,1
+14188,Justin Bieber,5,False,561056,51253394,en,False,True,26712,125938,False,True,False,False,False,False,False,25484,0,0,1
+240,Barack Obama,7,False,206441,42753919,en,False,True,11668,651202,False,False,True,False,False,False,False,68587,1,1,0
+276,Barack Obama,7,False,206441,42753919,en,False,True,11668,651202,False,False,True,False,False,False,False,66842,1,0,0
+509,YouTube,7,True,72948,41596737,en,True,True,10249,603,False,True,False,False,False,False,False,68409,1,0,1
+42,YouTube,7,True,72948,41596737,en,True,True,10249,603,False,True,False,False,False,False,False,66805,1,0,1
+15232,Lady Gaga,6,True,242154,41327780,en,False,True,4560,134735,False,False,False,False,True,False,False,1768,0,0,0
+8315,Lady Gaga,6,True,242154,41327780,en,False,True,4560,134735,False,False,False,False,True,False,False,1055,0,0,0
