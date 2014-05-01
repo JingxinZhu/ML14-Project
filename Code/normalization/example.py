@@ -16,7 +16,7 @@ def main(args):
 	# parse input command
 	try:
 	    user_size = int(args[1])
-	    tweets_per_user = int(args[2])
+	    tweets_per_user = int(args[2]) - 10
 	except:	
 	    print 'Error on the input parameter.'
 	    return
@@ -31,7 +31,7 @@ def main(args):
         # ratio of popular tweets
         print ("Ratio of popular tweets is %.3f") % (float(sum(l == 1 for l in labels)) / (user_size * tweets_per_user))
         # one possible feature vector
-        print X[0:10,:]
+        print X[1,:]
 
 if __name__ == '__main__':
 	main(sys.argv)
