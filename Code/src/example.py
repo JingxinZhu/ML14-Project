@@ -16,7 +16,7 @@ def main(args):
 	# parse input command
 	try:
 	    user_size = int(args[1])
-	    tweets_per_user = int(args[2]) - 10
+	    tweets_per_user = int(args[2]) 
 	except:	
 	    print 'Error on the input parameter.'
 	    return
