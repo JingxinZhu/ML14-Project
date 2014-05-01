@@ -45,9 +45,9 @@ def read_tweets():
 #    label it as 0 otherwise.
 def label_vector(vec, USER_SIZE, TWEETS_PER_USER):
     labels = []
-    matrix = []
-    vec_matirx = np.array(vec)
     filter_size = 5
+    #matrix = np.zeros(USER_SIZE * (TWEETS_PER_USER - 2 * filter_size), len(vec[0,:])
+    vec_matirx = np.array(vec)
 
     for num in range(USER_SIZE):
         # select tweets for each user
@@ -72,25 +72,30 @@ def label_vector(vec, USER_SIZE, TWEETS_PER_USER):
                 labels.append(1)
             else:
                 labels.append(0)
-        matrix.append(user_tweets)   
+
+        if num == 0:
+            matrix = user_tweets
+        else:
+            matrix = np.concatenate((matrix, user_tweets), axis =0)
+        
+        #matrix = np.concatenate((matrix, user_tweets), axis = 0)
     labels = np.array(labels)
     #print sum(l == 1 for l in labels)
-    print matrix
     return labels, matrix
 
 # 3. normalize column by column
-def normalize(vec_matirx):
-    X = np.zeros(vec_matirx.shape)
-    for i in range(len(vec_matirx)):
-        col = vec_matirx[:,i]
+def normalize(matrix):
+    X = np.zeros(matrix.shape)
+    for i in range(len(matrix[0,:])):
+        col = matrix[:,i]
         col_max = max(col)
         col_min = min(col)
-        #if col_max * col_min == 0:
+        X[:,i] = norm_column(col)
+    print X
             #X.append(norm_column(vec_matirx[:,i]))
 
-
 def norm_column(col):
-    return  0
+    return np.zeros(col.shape)
 
 # ------------------- #
 #    Main function    #
@@ -98,8 +103,8 @@ def norm_column(col):
 USER_SIZE       = 2
 TWEETS_PER_USER = 200
 vec = read_tweets()
-[labels, vec_matirx] = label_vector(vec, USER_SIZE, TWEETS_PER_USER)
-#X = normalize(vec_matirx) 
+[labels, matrix] = label_vector(vec, USER_SIZE, TWEETS_PER_USER)
+X = normalize(matrix) 
 
 #clf = svm.SVC()
 #clf.fit(vec_matirx, labels)
