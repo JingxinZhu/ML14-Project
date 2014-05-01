@@ -69,7 +69,7 @@ class Feature_Vector:
     
     # set flat = 1 if true; -1 otherwise
     def label(self, flag):
-            if (flag == 'True'):
-                    return 1
-            else:
-                    return -1
+        if (flag == 'True'):
+            return 1
+        else:
+            return -1
