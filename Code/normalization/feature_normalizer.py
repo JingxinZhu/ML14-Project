@@ -107,7 +107,7 @@ class Feature_Normalizer:
             X[:,i] = self.norm_column(col)
         return X
 
-    # [min, max] -> [0, 1]
+    # 4.[min, max] -> [0, 1]
     def norm_column(self, col):
         col_return = []
         col_max = col.max()
