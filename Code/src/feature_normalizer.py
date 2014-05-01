@@ -29,7 +29,9 @@ class Feature_Normalizer:
     def normalize(self, user_size, tweets_num):
         vec = self.read_tweets()
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
-        X = np.array(self.normalize_matrix(matrix, user_size, tweets_num)) 
+
+        # since max and min are deleted, we need to -10
+        X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
         return labels, X
 
     # 1. read in tweets from one user, process each tweet into a feature vector
@@ -96,8 +98,10 @@ class Feature_Normalizer:
         X = np.zeros(matrix.shape)
         # 3.1 for the 1st column, namely, retweets, normalize this column by user
         
+        print matrix.shape
         for num in range(user_size):
             col = matrix[tweets_number*num:tweets_number*(num+1),0] 
+            print 'col -', len(col), col
             X[tweets_number*num:tweets_number*(num+1) ,0] = self.norm_column(col)
             
         # 3.2 for the rest columns, normalize by column
