@@ -71,7 +71,7 @@ def label_vector(vec, USER_SIZE, TWEETS_PER_USER):
             if v[0] > indicator:
                 labels.append(1)
             else:
-                labels.append(0)
+                labels.append(-1)
 
         if num == 0:
             matrix = user_tweets
@@ -83,19 +83,29 @@ def label_vector(vec, USER_SIZE, TWEETS_PER_USER):
     #print sum(l == 1 for l in labels)
     return labels, matrix
 
-# 3. normalize column by column
+# 3. normalize column by column, [min, max] -> [0,1]
 def normalize(matrix):
     X = np.zeros(matrix.shape)
-    for i in range(len(matrix[0,:])):
-        col = matrix[:,i]
-        col_max = max(col)
-        col_min = min(col)
-        X[:,i] = norm_column(col)
-    print X
+    print max(matrix[:,0])
+    norm_column(matrix[0,:])
+    #for i in range(len(matrix[0,:])):
+    #for i in range(1):
+        #col = matrix[:,i]
+        #X[:,i] = norm_column(col)
+    return X
             #X.append(norm_column(vec_matirx[:,i]))
 
+# [min, max] -> [0, 1]
 def norm_column(col):
-    return np.zeros(col.shape)
+    col_max = max(col)
+    print col_max
+    col_min = min(col)
+    print col_min
+    dis = col_max - col_min
+    for v in col:
+        if (dis != 0):
+            v = 2 * (v - col_min) / dis - 1
+    return col
 
 # ------------------- #
 #    Main function    #
@@ -105,6 +115,7 @@ TWEETS_PER_USER = 200
 vec = read_tweets()
 [labels, matrix] = label_vector(vec, USER_SIZE, TWEETS_PER_USER)
 X = normalize(matrix) 
+#print X[:,0]
 
 #clf = svm.SVC()
 #clf.fit(vec_matirx, labels)
