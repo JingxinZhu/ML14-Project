@@ -32,11 +32,14 @@ class Crawler_Celebrity_Tweets:
             # initialize the API object using keys
             api = tweepy.API(auth)
 
+            n_newest_tweets = 10
+
             for user in id_list:
                 try:
                     print 'Working on user', user
-                    tweets = api.user_timeline(user, count = n_per_user)
-                    tweet_list += tweets
+                    tweets = api.user_timeline(user, count = n_per_user +\
+                            n_newest_tweets)
+                    tweet_list += tweets[n_newest_tweets:]
                     #for t in tweets:
                     #    print t.retweet_count
                 except:
