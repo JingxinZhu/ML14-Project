@@ -63,9 +63,9 @@ class Feature_Vector:
             # 21 - number of other users mentioned
             vec[21] = int(row[21])
             return vec
-            except:
-                    print 'Unexpected format of input file'
-                    return []
+        except:
+            print 'Unexpected format of input file'
+            return []
     
     # set flat = 1 if true; -1 otherwise
     def label(self, flag):

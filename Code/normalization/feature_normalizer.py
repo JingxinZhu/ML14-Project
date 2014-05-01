@@ -63,7 +63,6 @@ class Feature_Normalizer:
             # select tweets for each user
             user_tweets = vec_matirx[tweets_num*num : tweets_num*(num+1),:]
             col_retweet = user_tweets[:,0]
-            print len(user_tweets)
 
             # find 5 highest and 5 lowest retweets.
             max_5 = np.argsort(col_retweet)[-filter_size:]
