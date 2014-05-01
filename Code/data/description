@@ -1,1 +1,5 @@
 retweetCount,userName,howOldIsAccount,profileUseBackgroundEnabled,listCount,language,geoenabled,verified,tweetCount,followingCount,tweetOnMonday,tweetOnTuesday,tweetOnWednesday,tweetOnThursday,tweetOnFriday,tweetOnSaturday,tweetOnSunday,tweetTimeInSeconds,numberOfUrlIncluded,numberOfHashtagsIncluded,numberOfUsersMentioned
+# 1. can we add whether photo included into feature vector?
+# 2. maybe we can devide one day into several time periods, e.g. 12am-3am, 3am-6am, 
+# 	 just like what we did for weekdays.
+# 3. key words? punctuations? special characters?  like ?, !!. :), etc.
