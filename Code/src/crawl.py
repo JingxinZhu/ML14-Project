@@ -40,7 +40,6 @@ def main(args):
     # initialize account crawler
     crawler_id = cc.Crawler_Celebrity_Accounts()
     id_list = crawler_id.crawl(n_ids)
-    #id_list = ['twitter_es']
 
     # initialize tweets crawler
     crawler_tweets = ct.Crawler_Celebrity_Tweets()
@@ -52,8 +51,8 @@ def main(args):
     vec = []
     for i, t in enumerate(tweets):
         vec.append(cleaner.clean(t))
-        print len(vec[-1])
 
+    print vec
     # write to the disk
     with open(out_path + '/tweets', 'wb') as f:
         writer = csv.writer(f)
