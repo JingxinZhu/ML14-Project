@@ -10,6 +10,7 @@ class Tweet_Cleaner:
     def clean(self, tw = None):
         try:
         # may be changed later, this INCLUDES the label as well as user name!
+            print tw.text
             dim = 22
 
             vec = [False] * dim
