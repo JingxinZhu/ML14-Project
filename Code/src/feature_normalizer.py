@@ -27,7 +27,9 @@ class Feature_Normalizer:
 
     ## main function ##
     def normalize(self, user_size, tweets_num):
+        print user_size
         [user_size,vec] = self.read_tweets(tweets_num)
+        print 'user size: %d ' % user_size 
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
 
         # since max and min are deleted, we need to -10
@@ -51,6 +53,7 @@ class Feature_Normalizer:
                     row_ct += 1
             except csv.Error as e:
                 sys.exit('file %s, line %d: %s',  (filename, reader.line_num, e))
+        print row_ct
         user_scale = row_ct / t
         return user_scale, vec
 
