@@ -40,6 +40,7 @@ def main(args):
     # initialize account crawler
     crawler_id = cc.Crawler_Celebrity_Accounts()
     id_list = crawler_id.crawl(n_ids)
+    #id_list = ['twitter_es']
 
     # initialize tweets crawler
     crawler_tweets = ct.Crawler_Celebrity_Tweets()
