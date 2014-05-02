@@ -27,7 +27,7 @@ class Feature_Normalizer:
 
     ## main function ##
     def normalize(self, user_size, tweets_num):
-        vec = self.read_tweets()
+        [user_size,vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
 
         # since max and min are deleted, we need to -10
@@ -35,21 +35,24 @@ class Feature_Normalizer:
         return labels, X
 
     # 1. read in tweets from one user, process each tweet into a feature vector
-    def read_tweets(self):
+    def read_tweets(self, t):
         # initialize raw data
         feature = fv.Feature_Vector()
         # use vec to store the results
         # data source
         datafile = '../data/tweets'
         vec = []
+        row_ct = 0
         with open(datafile, 'rb') as f:
             reader = csv.reader(f, delimiter = ',')
             try:
                 for row in reader:
                     vec.append(feature.process(row))
+                    row_ct += 1
             except csv.Error as e:
                 sys.exit('file %s, line %d: %s',  (filename, reader.line_num, e))
-        return vec
+        user_scale = row_ct / t
+        return user_scale, vec
 
     # 2. label each feature vector after deleting the five hightest and five
     #    lowest retweets, 
