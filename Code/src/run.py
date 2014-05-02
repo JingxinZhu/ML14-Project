@@ -1,14 +1,12 @@
-'''
-This code is a part of the final project for course Machine Learning 
-and Computational Statistics at NYU for Fall 2014.
+#This code is a part of the final project for course Machine Learning
+#and Computational Statistics at NYU for Fall 2014.
 
-Author: Bowei Zhang and Jingxin Zhu
-Date created: 30th, Apr
-'''
+#Author: Bowei Zhang and Jingxin Zhu
+#Date created: 30th, Apr
 
 import sys
 
-import pydot
+#import pydot
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -45,8 +43,6 @@ if __name__ == '__main__':
 
     [labels, X] = norm.normalize(n_ids, n_tweets_per_id)
 
-    X = X[:, 2:]
-
     # split test and training set
     X_train, X_test, Y_train, Y_test = cross_validation.train_test_split(X,\
             labels, test_size = 0.3)
@@ -56,19 +52,9 @@ if __name__ == '__main__':
     np.save('../data/Y_test', Y_test)
 
     # SVM
-    print 'SVM:'
     clf = svm.SVC(kernel = 'linear', C = 1)
-    clf.fit(X_train, Y_train)
-    print clf.score(X_train, Y_train)
-    scores = cross_validation.cross_val_score(clf, X_train, Y_train)
-    # validation scores
-    print 'CV scores:', scores
+    clf.fit(X_train[:, 2:], Y_train)
 
-    # Decision tree
-    print 'Decision Tree:'
-    clf = tree.DecisionTreeClassifier()
-    clf.fit(X_train, Y_train)
-    print clf.score(X_train, Y_train)
-    scores = cross_validation.cross_val_score(clf, X_train, Y_train)
+    scores = cross_validation.cross_val_score(clf, X_train[:, 2:], Y_train)
     # validation scores
-    print 'CV scores:', scores
+    print scores
