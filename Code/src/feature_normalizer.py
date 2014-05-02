@@ -63,7 +63,7 @@ class Feature_Normalizer:
 
         for num in range(user_size):
             # select tweets for each user
-            user_tweets = vec_matirx[tweets_num*num : tweets_num*(num+1),:]
+            user_tweets = vec_matirx[tweets_num * num : tweets_num * (num + 1),:]
             col_retweet = user_tweets[:,0]
 
             # find 5 highest and 5 lowest retweets.
@@ -74,7 +74,8 @@ class Feature_Normalizer:
             col_retweet = user_tweets[:,0]
 
             # 70% * (max_after_deleted_top_5 - min_after_deleted_down_5)
-            indicator = 0.7 * (col_retweet.max()- col_retweet.min())
+            indicator = 0.7 * (col_retweet.max()- col_retweet.min()) +\
+                    col_retweet.min()
 
             # label each feature vector
             for v in user_tweets:
@@ -91,6 +92,7 @@ class Feature_Normalizer:
             
             #print sum(l == 1 for l in labels)
         labels = np.array(labels)
+        print labels
         return labels, matrix
 
     # 3. normalize column by column, [min, max] -> [0,1]
