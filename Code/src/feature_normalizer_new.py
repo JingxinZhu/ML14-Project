@@ -1,5 +1,5 @@
 '''
-File: feature_normalizer.py
+File: feature_normalizer_new.py
 --------------------------------------------------------------------
 This code is a part of the final project for course Machine Learning 
 and Computational Statistics at NYU for Fall 2014.
@@ -29,7 +29,7 @@ class Feature_Normalizer:
     def normalize(self, user_size, tweets_num):
         [user_size,vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
-
+		#print vec
         # since max and min are deleted, we need to -10
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
         return labels, X
@@ -39,8 +39,12 @@ class Feature_Normalizer:
         [user_size, vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_matrix(user_size, vec, tweets_num, n_class)
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10))
+        #print (X[111])
         return labels, X
 
+    # labels_matrix:
+    # Output : labels, can be 1 to n_class, class 1 indicates most popular tweets, 
+    #          class n_class implies least popular tweets. 
     def label_matrix(self, n_id, vec, n_tweets_per_id, n_class):
         labels = []
         filter_size = 5
@@ -51,7 +55,7 @@ class Feature_Normalizer:
         for i in range(1, n_class):
             factor = (n_class - i) / float(n_class)
             factors.append(factor)
-    
+
         # For each Twitter user, delete 5 tweets which have 5 highest retweets number
         # and delete 5 tweets which have 5 lowest retweets number.
         for num in range(n_id):
@@ -68,7 +72,7 @@ class Feature_Normalizer:
         
             # create indicators to label feature vectors
             indicators = []
-            for faator in factors:
+            for factor in factors:
                 indicators.append( factor * (col_retweet.max()- col_retweet.min()) +\
                         col_retweet.min() )
 
@@ -84,7 +88,16 @@ class Feature_Normalizer:
                     i += 1
                 if (flag == 0):
                     labels.append(n_class)
-            #print labels
+
+            #print indicators
+            #print [v[0] for v in user_tweets]
+            #print 'labels: ', labels
+
+            # print ratio of each class
+            #print '1st: %.4f ' % (float(sum(l==1 for l in labels)) / len(labels))
+            #print '2st: %.4f ' % (float(sum(l==2 for l in labels)) / len(labels))
+            #print '3st: %.4f ' % (float(sum(l==3 for l in labels)) / len(labels))
+            #print '4st: %.4f ' % (float(sum(l==4 for l in labels)) / len(labels))
 
             # create new matrix
             if num == 0:
