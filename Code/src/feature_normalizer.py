@@ -25,7 +25,7 @@ import feature_vector as fv
 
 class Feature_Normalizer:
 
-    ## main function for two classes ##
+    ## main function ##
     def normalize(self, user_size, tweets_num):
         [user_size,vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
@@ -33,66 +33,6 @@ class Feature_Normalizer:
         # since max and min are deleted, we need to -10
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
         return labels, X
-
-    ## main function for multiple classes ##
-    def multiclass_normalize(self, tweets_num, n_class):
-        [user_size, vec] = self.read_tweets(tweets_num)
-        [labels, matrix] = self.label_matrix(user_size, vec, tweets_num, n_class)
-        X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10))
-        return labels, X
-
-    def label_matrix(self, n_id, vec, n_tweets_per_id, n_class):
-        labels = []
-        filter_size = 5
-        vec_matirx = np.array(vec)
-        
-        # create coefficients for different classes 
-        factors = []
-        for i in range(1, n_class):
-            factor = (n_class - i) / float(n_class)
-            factors.append(factor)
-    
-        # For each Twitter user, delete 5 tweets which have 5 highest retweets number
-        # and delete 5 tweets which have 5 lowest retweets number.
-        for num in range(n_id):
-            # select tweets belonging to each user
-            user_tweets = vec_matirx[n_tweets_per_id* num : n_tweets_per_id* (num + 1),:]
-            col_retweet = user_tweets[:,0]
-
-            # find 5 highest and 5 lowest retweets.
-            max_5 = np.argsort(col_retweet)[-filter_size:]
-            min_5 = np.argsort(col_retweet)[:filter_size]
-
-            user_tweets = np.delete(user_tweets,[max_5,min_5],0)
-            col_retweet = user_tweets[:,0]
-        
-            # create indicators to label feature vectors
-            indicators = []
-            for faator in factors:
-                indicators.append( factor * (col_retweet.max()- col_retweet.min()) +\
-                        col_retweet.min() )
-
-            # label each feature vector
-            for v in user_tweets:
-                i = 0
-                flag = 0
-                while i < n_class-1:
-                    if v[0] > indicators[i]:
-                        flag = 1
-                        labels.append(i+1)
-                        break
-                    i += 1
-                if (flag == 0):
-                    labels.append(n_class)
-            #print labels
-
-            # create new matrix
-            if num == 0:
-                matrix = user_tweets
-            else:
-                matrix = np.concatenate((matrix, user_tweets), axis =0)
-        labels = np.array(labels)
-        return labels, matrix
 
     # 1. read in tweets from one user, process each tweet into a feature vector
     def read_tweets(self, t):
@@ -111,7 +51,6 @@ class Feature_Normalizer:
                     row_ct += 1
             except csv.Error as e:
                 sys.exit('file %s, line %d: %s',  (filename, reader.line_num, e))
-        #print row_ct
         user_scale = row_ct / t
         return user_scale, vec
 
@@ -156,6 +95,7 @@ class Feature_Normalizer:
             
             #print sum(l == 1 for l in labels)
         labels = np.array(labels)
+        print labels
         return labels, matrix
 
     # 3. normalize column by column, [min, max] -> [0,1]
@@ -163,10 +103,10 @@ class Feature_Normalizer:
         X = np.zeros(matrix.shape)
         # 3.1 for the 1st column, namely, retweets, normalize this column by user
         
-        #print matrix.shape
+        print matrix.shape
         for num in range(user_size):
             col = matrix[tweets_number*num:tweets_number*(num+1),0] 
-            #print 'col -', len(col), col
+            print 'col -', len(col), col
             X[tweets_number*num:tweets_number*(num+1) ,0] = self.norm_column(col)
             
         # 3.2 for the rest columns, normalize by column
