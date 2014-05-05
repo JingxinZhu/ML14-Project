@@ -29,7 +29,6 @@ class Feature_Normalizer:
     def normalize(self, user_size, tweets_num):
         [user_size,vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
-		#print vec
         # since max and min are deleted, we need to -10
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
         return labels, X
@@ -39,7 +38,6 @@ class Feature_Normalizer:
         [user_size, vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_matrix(user_size, vec, tweets_num, n_class)
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10))
-        #print (X[111])
         return labels, X
 
     # labels_matrix:
@@ -55,7 +53,7 @@ class Feature_Normalizer:
         for i in range(1, n_class):
             factor = (n_class - i) / float(n_class)
             factors.append(factor)
-
+        
         # For each Twitter user, delete 5 tweets which have 5 highest retweets number
         # and delete 5 tweets which have 5 lowest retweets number.
         for num in range(n_id):
