@@ -52,7 +52,6 @@ def main(args):
     for i, t in enumerate(tweets):
         vec.append(cleaner.clean(t))
 
-    print vec
     # write to the disk
     with open(out_path + '/tweets', 'wb') as f:
         writer = csv.writer(f)

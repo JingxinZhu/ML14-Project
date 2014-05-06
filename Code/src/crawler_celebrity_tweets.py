@@ -37,13 +37,12 @@ class Crawler_Celebrity_Tweets:
             for user in id_list:
                 try:
                     print 'Working on user', user
-                    tweets = []
-                    cnt = n_per_user + n_newest_tweets - 1
-                    while len(tweets) < n_per_user + n_newest_tweets:
-                        cnt += 1
-                        tweets = api.user_timeline(user, count = cnt)
-
-                    tweet_list += tweets[n_newest_tweets:]
+                    cnt = n_per_user + n_newest_tweets
+                    tweets = api.user_timeline(user, count = cnt)
+                    if len(tweets) == cnt:
+                        tweet_list += tweets[n_newest_tweets:]
+                    else:
+                        print 'User', user, 'does not have enought tweets.'
                 except:
                     print 'User', user, 'does not exist.'
             
