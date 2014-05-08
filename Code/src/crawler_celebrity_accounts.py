@@ -11,19 +11,21 @@ import urllib2
 from BeautifulSoup import BeautifulSoup as BS
 
 class Crawler_Celebrity_Accounts:
-    def crawl(self, n):
+    def crawl(self, n, start_id = 1):
         if n > 1000:
             n = 100
             print 'N should be no greater than 1000. Set it to 100.'
 
         # current page on Twitaholic
-        page = 1
+        page = (start_id - 1) / 100 + 1
+        page_offset = (start_id - 1) % 100
         # number of IDs acquired
-        cnt = 0
+        cnt = page_offset 
 
         # the list of IDs to return
         IDs = []
 
+        n += page_offset
         while cnt < n:
             try:
                 # request HTML (pure)
@@ -33,7 +35,7 @@ class Crawler_Celebrity_Accounts:
                 elem = BS(html).findAll('td', {'class' : 'statcol_name'})
 
                 # parse each tab
-                for e in elem:
+                for e in elem[page_offset:]:
                     # already done
                     if cnt >= n:
                         break;
@@ -44,6 +46,8 @@ class Crawler_Celebrity_Accounts:
                             ('<br')]
                     IDs.append(ID)
                     cnt += 1
+
+                page_offset = 0
 
                 # if all celebrities' IDs in the current web pages have been
                 # crawled, turn to next page

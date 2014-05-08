@@ -41,9 +41,11 @@ if __name__ == '__main__':
 
     norm = fn.Feature_Normalizer()
 
+    print 'Normaling'
     [labels, X] = norm.normalize(n_ids, n_tweets_per_id)
 
     # split test and training set
+    print 'Cross validating'
     X_train, X_test, Y_train, Y_test = cross_validation.train_test_split(X,\
             labels, test_size = 0.3)
 
@@ -51,20 +53,33 @@ if __name__ == '__main__':
     np.save('../data/X_test', X_test)
     np.save('../data/Y_test', Y_test)
 
-    # SVM
-    print 'SVM:'
-    clf = svm.SVC(kernel = 'linear', C = 1)
-    clf.fit(X_train, Y_train)
-    print clf.score(X_train, Y_train)
-    scores = cross_validation.cross_val_score(clf, X_train, Y_train)
+    # Linear SVM
+    print 'Linear SVM:'
+    svm_linear = svm.SVC(kernel = 'linear', C = 1)
+    svm_linear.fit(X_train, Y_train)
+    print svm_linear.score(X_train, Y_train)
+    scores = cross_validation.cross_val_score(svm_linear, X_train, Y_train)
+    # validation scores
+    print 'CV scores:', scores
+
+    # Kernel SVM
+    print 'Kernel SVM:'
+    svm_rbf = svm.SVC(kernel = 'rbf', C = 1)
+    svm_rbf.fit(X_train, Y_train)
+    print svm_rbf.score(X_train, Y_train)
+    scores = cross_validation.cross_val_score(svm_rbf, X_train, Y_train)
     # validation scores
     print 'CV scores:', scores
 
     # Decision tree
     print 'Decision Tree:'
-    clf = tree.DecisionTreeClassifier()
-    clf.fit(X_train, Y_train)
-    print clf.score(X_train, Y_train)
-    scores = cross_validation.cross_val_score(clf, X_train, Y_train)
-    # validation scores
-    print 'CV scores:', scores 
+    tree = tree.DecisionTreeClassifier('entropy')
+
+    for i in range(1, 32):
+        print '--Working on depth', i
+        tree.set_params(max_depth = i)
+        tree.fit(X_train, Y_train)
+        print tree.score(X_train, Y_train)
+        scores = cross_validation.cross_val_score(tree, X_train, Y_train)
+        # validation scores
+        print 'CV scores:', scores 

@@ -32,7 +32,7 @@ class Feature_Normalizer:
 
         # since max and min are deleted, we need to -10
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
-        return labels, X
+        return labels, X[:, 2:]
 
     # 1. read in tweets from one user, process each tweet into a feature vector
     def read_tweets(self, t):
@@ -40,7 +40,7 @@ class Feature_Normalizer:
         feature = fv.Feature_Vector()
         # use vec to store the results
         # data source
-        datafile = '../data/tweets'
+        datafile = '../data/tweets_full'
         vec = []
         row_ct = 0
         with open(datafile, 'rb') as f:
@@ -95,7 +95,6 @@ class Feature_Normalizer:
             
             #print sum(l == 1 for l in labels)
         labels = np.array(labels)
-        print labels
         return labels, matrix
 
     # 3. normalize column by column, [min, max] -> [0,1]
@@ -103,10 +102,8 @@ class Feature_Normalizer:
         X = np.zeros(matrix.shape)
         # 3.1 for the 1st column, namely, retweets, normalize this column by user
         
-        print matrix.shape
         for num in range(user_size):
             col = matrix[tweets_number*num:tweets_number*(num+1),0] 
-            print 'col -', len(col), col
             X[tweets_number*num:tweets_number*(num+1) ,0] = self.norm_column(col)
             
         # 3.2 for the rest columns, normalize by column

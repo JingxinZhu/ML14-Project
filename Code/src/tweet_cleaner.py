@@ -18,10 +18,6 @@ class Tweet_Cleaner:
             vec[0] = int(tw.retweet_count)
             # 1 - user name
             vec[1] = tw.user.name.encode('utf-8')
-            
-            #
-            #vec[-1] = tw.text.encode('utf-8')
-            
             # 2 - account year
             vec[2] = 2014 - tw.user.created_at.year 
             # 3 - background picture enabled?
@@ -51,6 +47,10 @@ class Tweet_Cleaner:
             vec[20] = len(tw.entities.get('hashtags'))
             # 21 - number of other users mentioned
             vec[21] = len(tw.entities.get('user_mentions'))
+            # 22 - content
+
+            with open('../data/corpus', 'a') as f:
+                f.write(tw.text.encode('utf-8') + '\n')
 
             return vec
         except:
