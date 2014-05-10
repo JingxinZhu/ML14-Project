@@ -1,5 +1,8 @@
 '''
 File: feature_normalizer_new.py
+update history:
+    05/09(jz): change function 'normalize' and 'multiclass_normalize' 
+                by return X[:,2:]
 --------------------------------------------------------------------
 This code is a part of the final project for course Machine Learning 
 and Computational Statistics at NYU for Fall 2014.
@@ -31,14 +34,14 @@ class Feature_Normalizer:
         [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
         # since max and min are deleted, we need to -10
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
-        return labels, X
+        return labels, X[:,2:]
 
     ## main function for multiple classes ##
     def multiclass_normalize(self, tweets_num, n_class):
         [user_size, vec] = self.read_tweets(tweets_num)
         [labels, matrix] = self.label_matrix(user_size, vec, tweets_num, n_class)
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10))
-        return labels, X
+        return labels, X[:,2:]
 
     # labels_matrix:
     # Output : labels, can be 1 to n_class, class 1 indicates most popular tweets, 

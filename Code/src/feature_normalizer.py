@@ -1,5 +1,10 @@
 '''
 File: feature_normalizer.py
+update history:
+	05/09(jz): temporarily set datafile = '../data/tweets' for
+				'../data/tweets_full' has not been updated since
+				feature vector's dimension enlarged to 27.
+	05/09(bw): change function 'normalize' by return X[:,2:]
 --------------------------------------------------------------------
 This code is a part of the final project for course Machine Learning 
 and Computational Statistics at NYU for Fall 2014.
@@ -40,7 +45,8 @@ class Feature_Normalizer:
         feature = fv.Feature_Vector()
         # use vec to store the results
         # data source
-        datafile = '../data/tweets_full'
+        #datafile = '../data/tweets_full'
+        datafile = '../data/tweets'
         vec = []
         row_ct = 0
         with open(datafile, 'rb') as f:

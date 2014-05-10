@@ -1,4 +1,5 @@
 import sys
+import collections
 
 from nltk.tokenize import word_tokenize as wt
 from nltk.corpus import stopwords
@@ -42,12 +43,23 @@ def clean_tokens():
     final_tokens = [[s for s in tk if s not in once] for tk in tokens_stemmed]
     '''
 
+    # eliminate some specific words and words that appear only once
+    count = collections.defaultdict(int)
+    for t in tokens_stemmed:
+        for w in t:
+            if w == 'http' or w[0 : 5] == '//t.co':
+                print w
+            else:
+                count[w] += 1
+    tokens_stemmed = [[st.stem(w) for w in tk] for tk in tokens_filtered]
+    tokens_final = [[w for w in tk if count[w] > 1] for tk in tokens_stemmed]
+
     # LDA
     logging.basicConfig(format = '%(asctime)s : %(levelname)s : %(message)s',\
             level = logging.INFO)
-    dictionary = gensim.corpora.Dictionary(tokens_stemmed)
+    dictionary = gensim.corpora.Dictionary(tokens_final)
     print 'Building corpus for LDA'
-    corpus = [dictionary.doc2bow(t) for t in tokens_stemmed]
+    corpus = [dictionary.doc2bow(t) for t in tokens_final]
     print 'LDA'
     lda = gensim.models.ldamodel.LdaModel(corpus = corpus, id2word = dictionary,
             num_topics = 50)

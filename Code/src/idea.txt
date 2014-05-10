@@ -1,0 +1,3 @@
+Ideas that can be considered.
+
+1.(jz): 在project 的 future 部分，我们可以考虑加这么一句,"This project mainly focus on celebrities, so some results may not help common people to make their tweets popular. One possible future research could use common people's tweets as study sample and blala..." 
