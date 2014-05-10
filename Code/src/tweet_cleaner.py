@@ -8,8 +8,8 @@ Date created: 28th, Apr
 # please refer to the project notes for each feature in the vector
 class Tweet_Cleaner:
     def clean(self, tw = None):
-        try:
         # may be changed later, this INCLUDES the label as well as user name!
+        try:
             dim = 22
 
             vec = [False] * dim
@@ -50,8 +50,11 @@ class Tweet_Cleaner:
             # 22 - content
 
             with open('../data/corpus', 'a') as f:
-                f.write(tw.text.encode('utf-8') + '\n')
-
+                tokens = tw.text.encode('utf-8').splitlines()
+                s = ''
+                for t in tokens:
+                    s += t + ' '
+                f.write(s + '\n')
             return vec
         except:
             print 'Please input a tweet in correct format.'
