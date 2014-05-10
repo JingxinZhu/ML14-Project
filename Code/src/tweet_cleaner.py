@@ -63,8 +63,8 @@ class Tweet_Cleaner:
                 f.write(s + '\n')
             return vec
         except:
-        	print 'Please input a tweet in correct format.'
-        	return []
+            print 'Please input a tweet in correct format.'
+            return []
 
     def set_time(self, hour):
         if hour >=1 and hour < 5:
