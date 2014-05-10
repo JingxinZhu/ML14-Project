@@ -1,5 +1,8 @@
 '''
 File: feature_vector.py
+update history:
+	05/09(jz): change feature vector's dimension corresponding to 
+				timestamp's dividing into 6 separate columns.
 --------------------------------------------------------------------
 This code is a part of the final project for course Machine Learning 
 and Computational Statistics at NYU for Fall 2014.
@@ -15,7 +18,7 @@ class Feature_Vector:
 # omit 1,6,18 column, set value = 0 for these 3 columns
     def process(self, row = None):
     	try:
-            dim = 22
+            dim = 27
             vec = [0] * dim
                 
             # 0 - retweet count
@@ -44,24 +47,19 @@ class Feature_Vector:
             vec[9] = int(row[9])
             # 10 - number of followers
             vec[10] = int(row[10])
-            # 11 - 17 - day it is tweeted
-            vec[11] = self.label(row[11])
-            vec[12] = self.label(row[12])
-            vec[13] = self.label(row[13])
-            vec[14] = self.label(row[14])
-            vec[15] = self.label(row[15])
-            vec[16] = self.label(row[16])
-            vec[17] = self.label(row[17])
 
-            # 18 - timestampe when it was tweeted, UTC +0000 
-            #vec[18] = int(row[18])
+            # 11 - 17 - day it is tweeted
+			# 18 - 23 - time period it is tweeted
+            vec[11] = self.label(row[11])
+            for i in range(11,24):
+				vec[i] = self.label(row[i])
 
             # 19 - number of url includede in the tweet
-            vec[19] = int(row[19])
+            vec[24] = int(row[24])
             # 20 - number of hashtags used in the tweet
-            vec[20] = int(row[20])
+            vec[25] = int(row[25])
             # 21 - number of other users mentioned
-            vec[21] = int(row[21])
+            vec[26] = int(row[26])
             return vec
         except:
             print 'Unexpected format of input file'
