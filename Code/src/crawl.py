@@ -1,9 +1,14 @@
 '''
+File: crawl.py
+update history:
+
+--------------------------------------------------------------------
 This code is a part of the final project for course Machine Learning 
 and Computational Statistics at NYU for Fall 2014.
 
 Author: Bowei Zhang and Jingxin Zhu
 Date created: 24th, Apr
+--------------------------------------------------------------------
 '''
 #dsfdasdfa
 import sys

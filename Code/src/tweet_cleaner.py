@@ -1,8 +1,8 @@
 '''
 File: tweet_cleaner.py
 update history:
-	05/09(jz): divide timestamp into 6 time zones(first is (7am,11am]), 
-				thus enlarging feature dimensions from 22 to 27.  
+    05/09(jz): divide timestamp into 6 time zones(first is (7am,11am]), 
+                thus enlarging feature dimensions from 22 to 27.  
 --------------------------------------------------------------------
 This code is a part of the final project for course Machine Learning 
 and Computational Statistics at NYU for Fall 2014.
@@ -63,8 +63,8 @@ class Tweet_Cleaner:
                 f.write(s + '\n')
             return vec
         except:
-        	print 'Please input a tweet in correct format.'
-        	return []
+            print 'Please input a tweet in correct format.'
+            return []
 
     def set_time(self, hour):
         if hour >=1 and hour < 5:
