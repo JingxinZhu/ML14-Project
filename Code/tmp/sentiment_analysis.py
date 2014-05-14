@@ -1,6 +1,8 @@
 import sys
 import collections
 
+import numpy as np
+
 from nltk.tokenize import word_tokenize as wt
 from nltk.corpus import stopwords
 from nltk.stem.lancaster import LancasterStemmer
@@ -8,6 +10,8 @@ from nltk.stem.lancaster import LancasterStemmer
 import logging, gensim, bz2
 
 def clean_tokens():
+    n_topics = 50
+
     # get all tweets
     tw = [line.strip('\n') for line in file('corpus_full')]
 
@@ -47,7 +51,7 @@ def clean_tokens():
     count = collections.defaultdict(int)
     for t in tokens_stemmed:
         for w in t:
-            if w == 'http' or w[0 : 5] == '//t.co':
+            if w == 'http' or w[0 : 6] == '//t.co':
                 print w
             else:
                 count[w] += 1
@@ -62,9 +66,27 @@ def clean_tokens():
     corpus = [dictionary.doc2bow(t) for t in tokens_final]
     print 'LDA'
     lda = gensim.models.ldamodel.LdaModel(corpus = corpus, id2word = dictionary,
-            num_topics = 50)
+            num_topics = n_topics)
     print lda.print_topics()
-    
+
+
+    # extract topics for tweets
+    topic_matrix = []
+    for i in range(98900):
+        topics = lda[dictionary.doc2bow(tokens_final[i])]
+        v = [0.] * n_topics
+        for t in topics:
+            v[t[0]] = t[1]
+        topic_matrix.append(v)
+
+    # write matrix to the disk
+    np.save('topic_matrix', topic_matrix)
+
+    # write topics to the disk
+    topics = lda.show_topics(-1)
+    with open('topics', 'a') as f:
+        for i, t in enumerate(topics):
+            f.write(str(i) + '-' + t + '\n')
 
 if __name__ == '__main__':
     print 'hello'
