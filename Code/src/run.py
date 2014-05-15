@@ -1,9 +1,14 @@
-#This code is a part of the final project for course Machine Learning
-#and Computational Statistics at NYU for Fall 2014.
+'''
+Update history:
+    05/14: 
+--------------------------------------------------------------------
+This code is a part of the final project for course Machine Learning
+and Computational Statistics at NYU for Fall 2014.
 
-#Author: Bowei Zhang and Jingxin Zhu
-#Date created: 30th, Apr
-
+Author: Bowei Zhang and Jingxin Zhu
+Date created: 30th, Apr
+--------------------------------------------------------------------
+'''
 import sys
 
 #import pydot
@@ -15,7 +20,8 @@ from sklearn import tree
 from sklearn import ensemble
 from sklearn import cross_validation
 
-import feature_normalizer as fn
+#import feature_normalizer as fn
+import feature_normalizer_new as fn
 
 def visualize_error(scores = [1.00, 0.57], labels = ['a', 'b']):
     fig = plt.figure()
@@ -42,7 +48,8 @@ if __name__ == '__main__':
     norm = fn.Feature_Normalizer()
 
     print 'Normaling'
-    [labels, X] = norm.normalize(n_ids, n_tweets_per_id)
+    #[labels, X] = norm.normalize(n_ids, n_tweets_per_id)
+    [labels, X] = norm.normalize_with_topic(n_ids, n_tweets_per_id)
 
     # split test and training set
     print 'Cross validating'
