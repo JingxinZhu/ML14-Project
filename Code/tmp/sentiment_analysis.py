@@ -10,7 +10,7 @@ from nltk.stem.lancaster import LancasterStemmer
 import logging, gensim, bz2
 
 def clean_tokens():
-    n_topics = 50
+    n_topics = 25
 
     # get all tweets
     tw = [line.strip('\n') for line in file('corpus_full')]

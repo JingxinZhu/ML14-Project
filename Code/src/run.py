@@ -41,11 +41,11 @@ if __name__ == '__main__':
 
     norm = fn.Feature_Normalizer()
 
-    print 'Normaling'
+    print 'Normalizing'
     [labels, X] = norm.normalize(n_ids, n_tweets_per_id)
 
     # split test and training set
-    print 'Cross validating'
+    print 'Spliting test and training set'
     X_train, X_test, Y_train, Y_test = cross_validation.train_test_split(X,\
             labels, test_size = 0.3)
 
@@ -53,6 +53,7 @@ if __name__ == '__main__':
     np.save('../data/X_test', X_test)
     np.save('../data/Y_test', Y_test)
 
+    '''
     # Linear SVM
     print 'Linear SVM:'
     svm_linear = svm.SVC(kernel = 'linear', C = 1)
@@ -70,16 +71,31 @@ if __name__ == '__main__':
     scores = cross_validation.cross_val_score(svm_rbf, X_train, Y_train)
     # validation scores
     print 'CV scores:', scores
-
+    '''
     # Decision tree
-    print 'Decision Tree:'
+    print 'Decision tree'
     tree = tree.DecisionTreeClassifier('entropy')
 
+    s = []
+    v = []
     for i in range(1, 32):
         print '--Working on depth', i
         tree.set_params(max_depth = i)
         tree.fit(X_train, Y_train)
-        print tree.score(X_train, Y_train)
+        ss = tree.score(X_train, Y_train)
+        print ss
+        s.append(ss)
         scores = cross_validation.cross_val_score(tree, X_train, Y_train)
         # validation scores
         print 'CV scores:', scores 
+        v.append(sum(scores) / 3)
+
+    p1, = plt.plot(range(1, 32), s, '-bs')
+    p2, = plt.plot(range(1, 32), v, '-r^')
+    plt.legend([p1, p2], ['Training Score', 'Validation Score'], loc = 3)
+    plt.title('Training and validation scores for different depths')
+    plt.show()
+
+    tree.set_params(max_depth = 5)
+    tree.fit(X_train, Y_train)
+    print tree.score(X_test, Y_test)

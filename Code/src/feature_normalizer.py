@@ -45,7 +45,7 @@ class Feature_Normalizer:
         feature = fv.Feature_Vector()
         # use vec to store the results
         # data source
-        datafile = '../data/tweets'
+        datafile = '../data/tweets_full'
         vec = []
         row_ct = 0
         with open(datafile, 'rb') as f:
