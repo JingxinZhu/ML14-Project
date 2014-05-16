@@ -1,9 +1,14 @@
-#This code is a part of the final project for course Machine Learning
-#and Computational Statistics at NYU for Fall 2014.
+'''
+Update history:
+    05/14: 
+--------------------------------------------------------------------
+This code is a part of the final project for course Machine Learning
+and Computational Statistics at NYU for Fall 2014.
 
-#Author: Bowei Zhang and Jingxin Zhu
-#Date created: 30th, Apr
-
+Author: Bowei Zhang and Jingxin Zhu
+Date created: 30th, Apr
+--------------------------------------------------------------------
+'''
 import sys
 
 #import pydot
@@ -15,7 +20,8 @@ from sklearn import tree
 from sklearn import ensemble
 from sklearn import cross_validation
 
-import feature_normalizer as fn
+#import feature_normalizer as fn
+import feature_normalizer_new as fn
 
 def visualize_error(scores = [1.00, 0.57], labels = ['a', 'b']):
     fig = plt.figure()
@@ -42,7 +48,8 @@ if __name__ == '__main__':
     norm = fn.Feature_Normalizer()
 
     print 'Normalizing'
-    [labels, X] = norm.normalize(n_ids, n_tweets_per_id)
+    #[labels, X] = norm.normalize(n_ids, n_tweets_per_id)
+    [labels, X] = norm.normalize_with_topic(n_ids, n_tweets_per_id)
 
     # split test and training set
     print 'Spliting test and training set'
@@ -74,18 +81,18 @@ if __name__ == '__main__':
     '''
     # Decision tree
     print 'Decision tree'
-    tree = tree.DecisionTreeClassifier('entropy')
+    tree_model = tree.DecisionTreeClassifier('entropy')
 
     s = []
     v = []
-    for i in range(1, 32):
+    for i in range(1, 10):
         print '--Working on depth', i
-        tree.set_params(max_depth = i)
-        tree.fit(X_train, Y_train)
-        ss = tree.score(X_train, Y_train)
+        tree_model.set_params(max_depth = i)
+        tree_model.fit(X_train, Y_train)
+        ss = tree_model.score(X_train, Y_train)
         print ss
         s.append(ss)
-        scores = cross_validation.cross_val_score(tree, X_train, Y_train)
+        scores = cross_validation.cross_val_score(tree_model, X_train, Y_train)
         # validation scores
         print 'CV scores:', scores 
         v.append(sum(scores) / 3)

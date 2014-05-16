@@ -13,9 +13,10 @@ Goal  : This file normalize feature vectors to [-1, 1].
 Input : user_size  -number of Twitter users chosen for models.   
         tweets_num -number of tweets selected from each Twitter user.
 Output: labels     -array of labels for each feature vector, 
-                    'popular' tweets is labeled as 1, 0 otherwise.
+                    'popular' tweets is labeled as 1, -1 otherwise.
         X          -array of n-by-m, containing m normalized feature
-                    vectors, each of which has n features.
+                    vectors ([min,max]->[0,1]), 
+                    each of which has n features.
 
 Author: Bowei Zhang and Jingxin Zhu
 Date created: 29th, Apr
@@ -46,6 +47,8 @@ class Feature_Normalizer:
         # use vec to store the results
         # data source
         datafile = '../data/tweets_full'
+        #datafile = '../data/tweets_full'
+
         vec = []
         row_ct = 0
         with open(datafile, 'rb') as f:

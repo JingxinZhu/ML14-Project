@@ -30,11 +30,22 @@ class Feature_Normalizer:
 
     ## main function for two classes ##
     def normalize(self, user_size, tweets_num):
+        t = 0 # flag indicating this is not dealing with topics
         [user_size,vec] = self.read_tweets(tweets_num)
-        [labels, matrix] = self.label_vector(vec, user_size, tweets_num)
+        [labels, matrix] = self.label_vector(vec, user_size, tweets_num, t)
         # since max and min are deleted, we need to -10
         X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
         return labels, X[:,2:]
+
+    def normalize_with_topic(self, user_size, tweets_num):
+        t = 1  # flag indicating dealing with topics
+        [user_size,vec] = self.read_tweets(tweets_num)
+        [labels, matrix, rowToDelete] = self.label_vector(vec, user_size, tweets_num, t)
+        topic = np.load('../tmp/topic_matrix_100.npy')
+        t = np.delete(topic, rowToDelete, axis = 0) 
+        norm_X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
+        X = np.append(norm_X[:,2:], t, axis = 1) 
+        return labels, X
 
     ## main function for multiple classes ##
     def multiclass_normalize(self, tweets_num, n_class):
@@ -70,7 +81,7 @@ class Feature_Normalizer:
 
             user_tweets = np.delete(user_tweets,[max_5,min_5],0)
             col_retweet = user_tweets[:,0]
-        
+            
             # create indicators to label feature vectors
             indicators = []
             for factor in factors:
@@ -106,7 +117,7 @@ class Feature_Normalizer:
             else:
                 matrix = np.concatenate((matrix, user_tweets), axis =0)
         labels = np.array(labels)
-        return labels, matrix
+        #return labels, matrix
 
     # 1. read in tweets from one user, process each tweet into a feature vector
     def read_tweets(self, t):
@@ -114,7 +125,8 @@ class Feature_Normalizer:
         feature = fv.Feature_Vector()
         # use vec to store the results
         # data source
-        datafile = '../data/tweets'
+        #datafile = '../data/tweets'
+        datafile = '../data/tweets_full'
         vec = []
         row_ct = 0
         with open(datafile, 'rb') as f:
@@ -134,10 +146,12 @@ class Feature_Normalizer:
     #    use 70% of highest number of retweets as indicator, 
     #    label a feature vecotor as 1 if vector's number of retweets is more than 70%
     #    label it as 0 otherwise.
-    def label_vector(self, vec, user_size, tweets_num):
+    def label_vector(self, vec, user_size, tweets_num, t):
+
         labels = []
         filter_size = 5
         vec_matirx = np.array(vec)
+        rowToDelete = []
 
         for num in range(user_size):
             # select tweets for each user
@@ -147,6 +161,11 @@ class Feature_Normalizer:
             # find 5 highest and 5 lowest retweets.
             max_5 = np.argsort(col_retweet)[-filter_size:]
             min_5 = np.argsort(col_retweet)[:filter_size]
+            
+            if (t == 1):
+                #a = np.append(max_5,min_5) 
+                rowToDelete.append(max_5 + tweets_num * num)
+                rowToDelete.append(min_5 + tweets_num * num)
 
             user_tweets = np.delete(user_tweets,[max_5,min_5],0)
             col_retweet = user_tweets[:,0]
@@ -170,7 +189,12 @@ class Feature_Normalizer:
             
             #print sum(l == 1 for l in labels)
         labels = np.array(labels)
-        return labels, matrix
+        rowToDelete = np.asarray(rowToDelete).reshape(-1)
+        #return labels, matrix
+        if (t == 0):
+            return labels, matrix
+        else:
+            return labels,matrix,rowToDelete
 
     # 3. normalize column by column, [min, max] -> [0,1]
     def normalize_matrix(self, matrix, user_size, tweets_number ):
