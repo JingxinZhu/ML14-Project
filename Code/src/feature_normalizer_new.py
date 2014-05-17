@@ -41,7 +41,7 @@ class Feature_Normalizer:
         t = 1  # flag indicating dealing with topics
         [user_size,vec] = self.read_tweets(tweets_num)
         [labels, matrix, rowToDelete] = self.label_vector(vec, user_size, tweets_num, t)
-        topic = np.load('../tmp/topic_matrix_100.npy')
+        topic = np.load('../tmp/topic_matrix_25.npy')
         t = np.delete(topic, rowToDelete, axis = 0) 
         norm_X = np.array(self.normalize_matrix(matrix, user_size, tweets_num - 10)) 
         X = np.append(norm_X[:,2:], t, axis = 1) 
@@ -171,8 +171,7 @@ class Feature_Normalizer:
             col_retweet = user_tweets[:,0]
 
             # 70% * (max_after_deleted_top_5 - min_after_deleted_down_5)
-            indicator = 0.7 * (col_retweet.max()- col_retweet.min()) +\
-                    col_retweet.min()
+            indicator = 0.7 * col_retweet.max() 
 
             # label each feature vector
             for v in user_tweets:

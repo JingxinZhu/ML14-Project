@@ -23,19 +23,6 @@ from sklearn import cross_validation
 #import feature_normalizer as fn
 import feature_normalizer_new as fn
 
-def visualize_error(scores = [1.00, 0.57], labels = ['a', 'b']):
-    fig = plt.figure()
-
-    width = .5
-    n = len(scores)
-    ind = np.arange(n)
-    plt.bar(ind, scores)
-
-    x = range(n)
-    plt.xticks(ind, labels)
-
-    plt.show()
-
 if __name__ == '__main__':
     args = sys.argv
     if len(args) < 3:
@@ -60,49 +47,79 @@ if __name__ == '__main__':
     np.save('../data/X_test', X_test)
     np.save('../data/Y_test', Y_test)
 
-    '''
     # Linear SVM
     print 'Linear SVM:'
-    svm_linear = svm.SVC(kernel = 'linear', C = 1)
+    #cc = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+    cc = [1.0]
+    best = 0.0
+    bestC = -1
+    for c in cc:
+        print 'c =', c
+        svm_linear = svm.SVC(kernel = 'linear', C = c)
+        svm_linear.fit(X_train, Y_train)
+        scores = cross_validation.cross_val_score(svm_linear, X_train, Y_train)
+        # validation scores
+        print 'CV =', sum(scores) / 3
+        if sum(scores) / 3 > best:
+            best = sum(scores) / 3
+            bestC = c
+    svm_linear = svm.SVC(kernel = 'linear', C = bestC)
     svm_linear.fit(X_train, Y_train)
-    print svm_linear.score(X_train, Y_train)
-    scores = cross_validation.cross_val_score(svm_linear, X_train, Y_train)
-    # validation scores
-    print 'CV scores:', scores
+    print 'Test score:', svm_linear.score(X_test, Y_test)
+
 
     # Kernel SVM
     print 'Kernel SVM:'
-    svm_rbf = svm.SVC(kernel = 'rbf', C = 1)
+    best = 0.0
+    bestC = -1
+    for c in cc:
+        print 'c =', c
+        svm_rbf = svm.SVC(kernel = 'rbf', C = 1)
+        svm_rbf.fit(X_train, Y_train)
+        print svm_rbf.score(X_train, Y_train)
+        scores = cross_validation.cross_val_score(svm_rbf, X_train, Y_train)
+        # validation
+        print 'CV =', sum(scores) / 3
+        if sum(scores) / 3 > best:
+            best = sum(scores) / 3
+            bestC = c
+    svm_rbf = svm.SVC(kernel = 'rbf', C = bestC)
     svm_rbf.fit(X_train, Y_train)
-    print svm_rbf.score(X_train, Y_train)
-    scores = cross_validation.cross_val_score(svm_rbf, X_train, Y_train)
-    # validation scores
-    print 'CV scores:', scores
-    '''
+    print 'Test score:', svm_rbf.score(X_test, Y_test)
+
+
     # Decision tree
     print 'Decision tree'
     tree_model = tree.DecisionTreeClassifier('entropy')
-
     s = []
     v = []
+    best = 0.0
+    bestD = -1
     for i in range(1, 10):
-        print '--Working on depth', i
+        print 'Depth =', i
         tree_model.set_params(max_depth = i)
         tree_model.fit(X_train, Y_train)
         ss = tree_model.score(X_train, Y_train)
-        print ss
         s.append(ss)
         scores = cross_validation.cross_val_score(tree_model, X_train, Y_train)
         # validation scores
-        print 'CV scores:', scores 
+        print 'CV =', sum(scores) / 3
         v.append(sum(scores) / 3)
+        # validation
+        if sum(scores) / 3 > best:
+            best = sum(scores) / 3
+            bestD = i
+    tree_model = tree.DecisionTreeClassifier('entropy')
+    tree_model.set_params(max_depth = bestD)
+    tree_model.fit(X_train, Y_train)
+    print 'Test score:', tree_model.score(X_test, Y_test)
 
-    p1, = plt.plot(range(1, 32), s, '-bs')
-    p2, = plt.plot(range(1, 32), v, '-r^')
-    plt.legend([p1, p2], ['Training Score', 'Validation Score'], loc = 3)
-    plt.title('Training and validation scores for different depths')
-    plt.show()
+    #p1, = plt.plot(range(1, 32), s, '-bs')
+    #p2, = plt.plot(range(1, 32), v, '-r^')
+    #plt.legend([p1, p2], ['Training Score', 'Validation Score'], loc = 3)
+    #plt.title('Training and validation scores for different depths')
+    #plt.show()
 
-    tree.set_params(max_depth = 5)
-    tree.fit(X_train, Y_train)
-    print tree.score(X_test, Y_test)
+    #tree.set_params(max_depth = 5)
+    #tree.fit(X_train, Y_train)
+    #print tree.score(X_test, Y_test)
