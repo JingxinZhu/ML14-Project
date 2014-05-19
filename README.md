@@ -1,5 +1,6 @@
 # How to Get More Retweets?
 A machine learning project on the factors that influence the number of Twitter retweets.
+
 By : Bowei Zhang and Jingxin Zhu
 ## Introduction
 This is a coursework project for Machine Learning and Computational Statistics
